@@ -1,0 +1,90 @@
+name: Daily Idea Archive
+
+# IMPORTANT - Do remember your repository settings must have the write settings for Actions, go to Settings -> Actions -> Allow to Read and Write
+# Trigger on schedule and/or push
+on:
+  schedule:
+    # Okay this part is a little complicated, read this carefully :P
+    # Runs daily at midnight UTC
+    # Customize the schedule using cron syntax:
+    # ┌───────────── minute (0 - 59)
+    # │ ┌───────────── hour (0 - 23)
+    # │ │ ┌───────────── day of the month (1 - 31)
+    # │ │ │ ┌───────────── month (1 - 12)
+    # │ │ │ │ ┌───────────── day of the week (0 - 6)
+    # │ │ │ │ │
+    # │ │ │ │ │
+    # * * * * *
+    - cron: '0 0 * * *'  
+  
+  # Optional: Also trigger on push to specific branches
+  push:
+    branches:
+      - main
+      # Add more branches here if needed:
+      # - develop
+      # - staging
+
+jobs:
+  screenshot:
+    # Skip job if commit message contains [skip screenshot] (VERY IMPORTANT FOR NOT BEING IN A LOOP)
+    if: github.event_name != 'push' || (github.event_name == 'push' && !contains(github.head_commit.message, '[skip screenshot]'))
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        # Optional: Include all history and tags
+        # with:
+        #   fetch-depth: 0
+
+      # Step 2: Setup Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Take screenshot of ideabrowser.com
+      - name: Capture daily idea screenshot
+        run: node screenshot.js
+        # The screenshot.js script automatically:
+        # - Scrapes https://www.ideabrowser.com/
+        # - Creates archives/year/month/ folder structure
+        # - Saves screenshot as "14 July 2025.png" format
+
+      # Optional: Add custom processing steps
+      # - name: Process screenshot
+      #   run: |
+      #     # Add image processing commands
+      #     # Example: compress, resize, etc.
+
+      # Step 5: Commit and push changes
+      - name: Commit updated archives
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add archives/
+          # Commit with date stamp for tracking
+          git commit -m "📸 Daily idea archive: $(date +'%d %B %Y') [skip screenshot]" || echo "No changes to commit"
+          git push
+
+      # Optional: Create artifact for debugging
+      # - name: Upload screenshot as artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: daily-screenshots
+      #     path: archives/
+      #     retention-days: 7
+
+      # Optional: Send notifications
+      # - name: Send notification
+      #   if: always()
+      #   uses: some-notification-action@v1
+      #   with:
+      #     status: ${{ job.status }}
+      #     webhook: ${{ secrets.WEBHOOK_URL }} 

@@ -1,0 +1,37 @@
+{
+  "name": "awesome-idea-of-the-day-archive",
+  "version": "1.0.0",
+  "description": "🚀 An automated archive of daily startup ideas and business opportunities from Ideabrowser.com",
+  "main": "screenshot.js",
+  "scripts": {
+    "capture": "node screenshot.js",
+    "daily-idea": "node screenshot.js",
+    "start": "node screenshot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "awesome",
+    "startup-ideas", 
+    "business-opportunities",
+    "automation",
+    "archive",
+    "ideabrowser",
+    "entrepreneurship",
+    "github-actions",
+    "puppeteer",
+    "web-scraping"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/awesome-idea-of-the-day-archive.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/awesome-idea-of-the-day-archive/issues"
+  },
+  "homepage": "https://github.com/yourusername/awesome-idea-of-the-day-archive#readme",
+  "dependencies": {
+    "puppeteer": "^23.7.1"
+  }
+}
