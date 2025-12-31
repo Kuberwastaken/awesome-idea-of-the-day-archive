@@ -1,6 +1,10 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
 const path = require('path');
+
+// Use stealth plugin to bypass bot detection
+puppeteer.use(StealthPlugin());
 
 (async () => {
   let browser;
@@ -26,15 +30,41 @@ const path = require('path');
 
     console.log(`Capturing Idea of the Day to: ${filePath}`);
 
-    // Launch browser with required settings
+    // Launch browser with required settings and stealth mode
     browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: 'new',
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-blink-features=AutomationControlled',
+        '--disable-dev-shm-usage',
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process'
+      ]
     });
 
     const page = await browser.newPage();
 
+    // Set realistic user agent
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+    );
+
+    // Set extra HTTP headers to appear more like a real browser
+    await page.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+      'Upgrade-Insecure-Requests': '1',
+      'Sec-Fetch-Site': 'none',
+      'Sec-Fetch-Mode': 'navigate',
+      'Sec-Fetch-User': '?1',
+      'Sec-Fetch-Dest': 'document'
+    });
+
     // Configure viewport settings
-    await page.setViewport({ 
+    await page.setViewport({
       width: 1920,
       height: 1080,
       deviceScaleFactor: 2
