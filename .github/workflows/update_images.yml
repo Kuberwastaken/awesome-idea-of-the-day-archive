@@ -52,6 +52,8 @@ jobs:
       # Step 4: Take screenshot of ideabrowser.com
       - name: Capture daily idea screenshot
         run: node screenshot.js
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
         # The screenshot.js script automatically:
         # - Scrapes https://www.ideabrowser.com/
         # - Creates archives/year/month/ folder structure
