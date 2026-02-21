@@ -54,6 +54,8 @@ jobs:
         run: node screenshot.js
         env:
           PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
+          IDEABROWSER_EMAIL: ${{ secrets.IDEABROWSER_EMAIL }}
+          IDEABROWSER_PASSWORD: ${{ secrets.IDEABROWSER_PASSWORD }}
         # The screenshot.js script automatically:
         # - Scrapes https://www.ideabrowser.com/
         # - Creates archives/year/month/ folder structure

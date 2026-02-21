@@ -1,0 +1,13 @@
+diff --git a/node_modules/puppeteer-extra-plugin-user-data-dir/index.js b/node_modules/puppeteer-extra-plugin-user-data-dir/index.js
+index 935505a..7fc7aff 100644
+--- a/node_modules/puppeteer-extra-plugin-user-data-dir/index.js
++++ b/node_modules/puppeteer-extra-plugin-user-data-dir/index.js
+@@ -5,7 +5,7 @@ const fs = require('fs')
+ const fse = require('fs-extra')
+ const os = require('os')
+ const path = require('path')
+-const rimraf = require('rimraf')
++const { rimraf } = require('rimraf')
+ const debug = require('debug')('puppeteer-extra-plugin:user-data-dir')
+ const mkdtempAsync = util.promisify(fs.mkdtemp)
+ const { PuppeteerExtraPlugin } = require('puppeteer-extra-plugin')
