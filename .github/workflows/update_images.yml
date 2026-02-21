@@ -56,6 +56,10 @@ jobs:
           PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
           IDEABROWSER_EMAIL: ${{ secrets.IDEABROWSER_EMAIL }}
           IDEABROWSER_PASSWORD: ${{ secrets.IDEABROWSER_PASSWORD }}
+          IDEABROWSER_LOGIN_TRIGGER_SELECTOR: "div.hidden:nth-child(2) > div:nth-child(1) > button:nth-child(4)"
+          IDEABROWSER_EMAIL_SELECTOR: "div.hidden:nth-child(2) > div:nth-child(1) > form:nth-child(3) > div:nth-child(1) > div:nth-child(1) > input:nth-child(2)"
+          IDEABROWSER_PASSWORD_SELECTOR: "div.flex-row:nth-child(2) > div:nth-child(1) > input:nth-child(2)"
+          IDEABROWSER_SUBMIT_SELECTOR: "div.hidden:nth-child(2) > div:nth-child(1) > form:nth-child(3) button[type='submit']"
         # The screenshot.js script automatically:
         # - Scrapes https://www.ideabrowser.com/
         # - Creates archives/year/month/ folder structure
