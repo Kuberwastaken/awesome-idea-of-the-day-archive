@@ -24,6 +24,25 @@ npm run capture
 npm run daily-idea
 ```
 
+### Login-required pages
+
+If Ideabrowser requires a login, set the following environment variables before running the script:
+
+- `IDEABROWSER_EMAIL`
+- `IDEABROWSER_PASSWORD`
+
+Optional selectors (use these when the default selector guesses fail):
+
+- `IDEABROWSER_LOGIN_URL` (defaults to `https://www.ideabrowser.com/login`)
+- `IDEABROWSER_LOGIN_TRIGGER_SELECTOR`
+- `IDEABROWSER_EMAIL_SELECTOR`
+- `IDEABROWSER_PASSWORD_SELECTOR`
+- `IDEABROWSER_SUBMIT_SELECTOR`
+- `IDEABROWSER_POST_LOGIN_SELECTOR`
+- `IDEABROWSER_IDEA_SELECTOR`
+
+The script also uses `IDEABROWSER_USER_DATA_DIR` to store a stable browser profile directory. This prevents Windows temp cleanup errors when Chrome still has files locked.
+
 ### Example output structure
 
 ```
@@ -47,6 +66,8 @@ The repository is configured to run automatically every 24 hours via GitHub Acti
 - **Schedule**: Daily at midnight UTC (`cron: '0 0 * * *'`)
 - **Action**: Captures the daily page and commits it to the repository
 - **Location**: `.github/workflows/update_images.yml`
+- **Secrets**: Set `IDEABROWSER_EMAIL` and `IDEABROWSER_PASSWORD` in your repo settings
+- **Selectors**: You can set selector env vars in the workflow file if the defaults do not match the login form
 
 ### Windows Task Scheduler (Local)
 You can also set up local automation:
